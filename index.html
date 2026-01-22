@@ -62,6 +62,42 @@
       });
     }</script>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Force hide the icon initially */
+    #chat-icon {
+      display: none !important;
+      /* !important ensures it overrides everything else */
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #000;
+      color: #fff;
+      padding: 15px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 9999;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Only show when this class is added by JS */
+    #chat-icon.show {
+      display: block !important;
+      animation: fadeIn 0.5s;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
 
 <body class="x  x-fonts-raleway">
@@ -2481,7 +2517,7 @@
                 class="x-el x-el-div c1-1 c1-2 c1-3o c1-3p c1-1c c1-1d c1-1e c1-n c1-s c1-m c1-3 c1-fk c1-62 c1-b c1-c c1-d c1-fl c1-fm c1-fn c1-6c c1-e c1-h c1-i">
                 <div data-ux="SplitItem" id="form-container64467"
                   class="x-el x-el-div c1-1 c1-2 c1-n c1-t c1-al c1-1e c1-m c1-b c1-c c1-fo c1-fp c1-fq c1-d c1-fr c1-fs c1-ft c1-fu c1-e c1-h c1-i">
-                  <section data-ux="SectionSplit" data-aid="CONTACT_INFO_CONTAINER_REND"
+                  <section id="contact-section" data-ux="SectionSplit" data-aid="CONTACT_INFO_CONTAINER_REND"
                     class="x-el x-el-section c1-1 c1-2 c1-3 c1-k c1-l c1-4 c1-b c1-c c1-p c1-q c1-d c1-e c1-h c1-i">
                     <div data-ux="Container"
                       class="x-el x-el-div c1-1 c1-2 c1-1a c1-1b c1-6e c1-6f c1-1e c1-b c1-c c1-d c1-e c1-h c1-i">
@@ -2650,27 +2686,6 @@
                 data-tccl="ux2.COOKIE_BANNER.cookie1.Group.Default.Button.Primary.64470.click,click">Accept</a></div>
           </div>
         </div>
-        <div id="a87c5f84-512c-434b-8564-5dd7e8cc2b67" class="widget widget-messaging widget-messaging-messaging-1">
-          <div data-ux="Element" id="bs-13" class="x-el x-el-div c1-1 c1-2 c1-b c1-c c1-d c1-e c1-h c1-i">
-            <div data-ux="Block"
-              class="x-el x-el-div c1-1 c1-2 c1-14 c1-i6 c1-i7 c1-i8 c1-i9 c1-ia c1-b c1-c c1-d c1-ib c1-e c1-h c1-i">
-              <div data-ux="Block" data-aid="MESSAGING_FAB" data-edit-interactive="true"
-                data-traffic2="pandc.vnext.editor_preview.messaging_fab_open.click"
-                data-tccl="ux2.messaging.fab.open,click"
-                class="x-el x-el-div c1-1 c1-2 c1-n c1-4h c1-1f c1-1v c1-4 c1-z c1-du c1-hn c1-ic c1-id c1-b c1-c c1-d c1-e c1-h c1-i">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44" data-ux="Icon"
-                  class="x-el x-el-svg c1-1 c1-2 c1-ie c1-2b c1-1q c1-b c1-c c1-d c1-e c1-h c1-i">
-                  <g fill="currentColor">
-                    <rect x="4" y="6" width="16" height="10.222" rx="1.129"></rect>
-                    <path
-                      d="M8.977 18.578l.2-2.722a.564.564 0 01.564-.523h3.61c.548 0 .774.705.327 1.024l-3.81 2.721a.564.564 0 01-.89-.5z">
-                    </path>
-                  </g>
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -2682,19 +2697,41 @@
   <script defer src="//img1.wsimg.com/signals/js/clients/scc-c2/scc-c2.min.js" crossorigin></script>
   <script>"use strict"; Core.utils.onAllowCookieTracking(function () { const queryString = window.location.search; const urlParams = new URLSearchParams(queryString); const whiteList = ['gclid', 'fbclid', 'gdan_clid']; const belongToList = list => item => list.includes(item); const belongToWhiteList = belongToList(whiteList); Array.from(urlParams).forEach(param => { const [queryKey, queryResult] = param; if (!belongToWhiteList(queryKey)) return; localStorage.setItem(queryKey, queryResult); }); });</script>
 
-  <div id="chat-icon" onclick="toggleChat()">💬</div>
+  <div id="chat-icon" onclick="toggleChat()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" class="icon-open">
+      <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H6L4 18V4H20V16Z" />
+    </svg>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" class="icon-close"
+      style="display: none;">
+      <path
+        d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" />
+    </svg>
+  </div>
 
   <div id="chat-popup" class="hidden">
     <div class="header">
-      <span>Message us on WhatsApp</span>
-      <span class="close" onclick="toggleChat()">✖</span>
+      <span>Prodesk Engineering<br>Manpower</span>
     </div>
-    <form>
-      <input type="text" placeholder="Name" required />
-      <input type="email" placeholder="Email" required />
-      <textarea placeholder="How can we help?"></textarea>
-      <button type="submit">Send</button>
-    </form>
+    <div class="chat-body">
+      <div id="chat-form-container">
+        <div class="greeting-bubble">
+          Hi! Let us know how we can help and we'll respond shortly.
+        </div>
+        <form id="chat-form">
+          <input type="text" placeholder="Name*" required />
+          <input type="email" placeholder="Email*" required />
+          <textarea placeholder="How can we help?*"></textarea>
+          <button type="submit">SEND</button>
+        </form>
+        <div class="disclaimer">
+          This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.
+        </div>
+      </div>
+      <div id="chat-success" class="hidden" style="text-align: center; padding: 20px;">
+        <p style="font-size: 16px; font-weight: bold; margin-bottom: 10px;">Thank you!</p>
+        <p>Your message has been sent. We will get back to you shortly.</p>
+      </div>
+    </div>
   </div>
 
   <script src="script.js"></script>
