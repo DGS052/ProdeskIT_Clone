@@ -45,3 +45,32 @@ document.getElementById('chat-form').addEventListener('submit', function (e) {
     // Optional: Reset form fields
     this.reset();
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    // --- Sidebar Toggle Logic ---
+    const hamburgerIcons = document.querySelectorAll('[icon="hamburger"]');
+    const sidebar = document.getElementById('n-64317-sidebar');
+    const closeIcons = document.querySelectorAll('[data-ux="CloseIcon"]');
+
+    if (sidebar) {
+        // Open Sidebar
+        hamburgerIcons.forEach(icon => {
+            icon.addEventListener('click', function (e) {
+                e.preventDefault(); // Prevent jump to top
+                sidebar.classList.add('sidebar-visible'); // Use our new helper class
+                sidebar.classList.remove('c1-w'); // Remove hidden class
+            });
+        });
+
+        // Close Sidebar
+        closeIcons.forEach(icon => {
+            icon.addEventListener('click', function (e) {
+                e.preventDefault();
+                sidebar.classList.remove('sidebar-visible');
+                sidebar.classList.add('c1-w'); // Re-hide it
+            });
+        });
+    } else {
+        console.warn("Sidebar element 'n-64317-sidebar' not found.");
+    }
+});
